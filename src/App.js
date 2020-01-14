@@ -9,17 +9,46 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-        result: "My Test String"
+        result: 0,
+      params:""
     };
-    this.result = "Result";
+    this.result = 0;
+    this.params = "";
+    this.operator = "";
   }
 
   onButtonClickParent = (value) =>{
-    this.setState({result: value},()=>{
-      console.log(this.state.result)
-    })
-    this.result = value;
+    this.params = this.params + value;
+    let inputData = this.state.params + value;
+    this.setState({ params: inputData });
   }
+
+  onOperatorClick = operator => {
+    this.operator = operator;
+    switch (operator) {
+      case '+':
+        this.result = this.params !== ""
+          ? this.result + parseInt(this.params)
+          : this.result;
+    }
+
+    this.params = "";
+    let inputData = this.state.params + operator;
+    this.setState({ params: inputData });
+  }
+
+  calculateResult = () => {
+    let params = parseInt(this.params);
+    switch (this.operator) {
+      case "+":
+        this.result = this.result + params;
+        this.setState({ result: this.result });
+        break;
+      default:
+        break;
+    }
+    this.params = "";
+  };
 
   render() {
     return (
@@ -27,9 +56,9 @@ class App extends React.Component {
         <div className="col-md-12 h-100 calculator">
           <div className="container">
             <div className="row h-100">
-                <ResultComponent result = {this.state.result}/>
+              <ResultComponent params={this.state.params} result={this.state.result}/>
                 <ButtonBarComponent onButtonClick = {this.onButtonClickParent}/>
-                <OperatorsComponent/>
+              <OperatorsComponent onOperatorClick={this.onOperatorClick} calculateResult={this.calculateResult.bind(this)} />
             </div>
           </div>
         </div>

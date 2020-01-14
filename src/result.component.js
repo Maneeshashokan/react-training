@@ -12,9 +12,9 @@ class ResultComponent extends Component {
         return(
             <div className="result">
                 <div className="pull-right result-area">
-                    {this.props.result}
+                    {this.props.params}
                 </div>
-                <div className="pull-right input-area"></div>
+        <div className="pull-right input-area">{this.props.result}</div>
               </div>
         )
     }
